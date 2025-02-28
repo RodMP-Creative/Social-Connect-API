@@ -1,22 +1,22 @@
 import { Schema, model } from 'mongoose';
 
-const ThoughtSchema = new Schema({
-  thoughtText: {
+const userSchema = new Schema({
+  username: {
     type: String,
     unique: true,
     required: true,
     trim: true
   },
-  createdAt: {
-    type: Date,
+  email: {
+    type: String,
     required: true,
     unique: true,
     match: [/.+@.+\..+/, 'valid email address']
   },
-  userName: [
+  thoughts: [
     {
-      type: String,
-      required: true,
+      type: Schema.Types.ObjectId,
+      ref: 'Thought'
     }
   ],
   friends: [
@@ -30,6 +30,10 @@ const ThoughtSchema = new Schema({
     virtuals: true,
   },
   id: false
+});
+
+userSchema.virtual('friendCount').get(function() {
+  return this.friends.length;
 });
 
 const User = model('User', userSchema);
