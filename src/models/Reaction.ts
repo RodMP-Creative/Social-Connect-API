@@ -1,4 +1,5 @@
 import { Schema, Types } from 'mongoose';
+import { formatDate } from '../utils/dateFormatter.js';
 
 const ReactionSchema = new Schema({
   reactionId: {
@@ -8,7 +9,7 @@ const ReactionSchema = new Schema({
   reactionBody: {
     type: String,
     required: true,
-    minlenght: 1,
+    minlength: 1,
     maxlength: 280
   },
   userName: {
@@ -18,7 +19,7 @@ const ReactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (timestamp: Date) => timestamp.toISOString()
+    get: formatDate
   }
 }, {
   toJSON: {
